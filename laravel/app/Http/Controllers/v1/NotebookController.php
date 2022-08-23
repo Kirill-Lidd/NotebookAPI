@@ -65,7 +65,7 @@ class NotebookController extends Controller
      *         @OA\Property(property="email", type="string", format="email", example="email@example.com"),
      *         @OA\Property(property="company", type="string", example="Компания"),
      *         @OA\Property(description="Upload image",property="photo",type="string",format="binary"),
-     *         @OA\Property(property="date_birth",type="string",format="date"),
+     *         @OA\Property(property="date_birth",type="string",format="date",example="22-02-1212),
      *       )
      *     )
      *   ),
