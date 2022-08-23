@@ -19,7 +19,7 @@ class NotebookUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
@@ -28,7 +28,7 @@ class NotebookUpdateRequest extends FormRequest
             'company' => 'string',
             'phone' => 'required|string',
             'email' => 'required|string|email',
-            'data_birth' => 'date',
+            'date_birth' => 'date',
             'photo' => 'image|mimes:jpg,png,jpeg'
         ];
     }
@@ -39,6 +39,10 @@ class NotebookUpdateRequest extends FormRequest
             'full_name.required' => 'Это поле обязательно',
             'phone.required' => 'Это поле обязательно',
             'email.required' => 'Это поле обязательно',
+            'email.email' => 'Почта должна содержать @ и .',
+            'date_birth.date' => 'Формат даты должен быть дд-мм-гггг',
+            'photo.image' => 'Загружаемый файл должен быть изображением',
+            'photo.mimes' => 'Загружамеый файл должен быть формата:.jpg, .png, .jpeg',
         ];
     }
 }

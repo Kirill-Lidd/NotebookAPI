@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NotebookStoreRequest;
 use App\Http\Requests\NotebookUpdateRequest;
 use App\Models\Notebook;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class NotebookController extends Controller
@@ -55,23 +54,27 @@ class NotebookController extends Controller
      *     security={
      *       {"api_key": {}},
      *     },
-     *     @OA\Response(
+     *   @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *         required={"full_name","phone","email"},
+     *         @OA\Property(property="full_name", type="string", example="ФИО"),
+     *         @OA\Property(property="phone", type="string", example="79999999999"),
+     *         @OA\Property(property="email", type="string", format="email", example="email@example.com"),
+     *         @OA\Property(property="company", type="string", example="Компания"),
+     *         @OA\Property(description="Upload image",property="photo",type="string",format="binary"),
+     *         @OA\Property(property="date_birth",type="string",format="date"),
+     *       )
+     *     )
+     *   ),
+     *   @OA\Response(
      *         response="201",
      *         description="Созданно",
-     *
-     *     ),
-     *   @OA\RequestBody(
-     *    required=true,
-     *    @OA\JsonContent(
-     *       required={"email","full_name","phone"},
-     *       @OA\Property(property="full_name", type="string", example="ФИО"),
-     *       @OA\Property(property="phone", type="string", example="79999999999"),
-     *       @OA\Property(property="email", type="string", format="email", example="email@mail.ru"),
-     *       @OA\Property(property="company", type="string", example="Компания"),
-     *       @OA\Property(property="date_birth", type="date", example="11-11-1111"),
-     *    ),
-     * ),
+     *   ),
      * )
+     *
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\NotebookStoreRequest $request
@@ -87,7 +90,7 @@ class NotebookController extends Controller
             $data['photo'] = Storage::disk('public')->put('/photo', $data['photo']);
         }
 
-       return Notebook::create($data);
+        return Notebook::create($data);
     }
 
     /**
@@ -112,10 +115,6 @@ class NotebookController extends Controller
      *         response="200",
      *         description="Все хорошо",
      *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         description="Запись не найдена",
-     *     ),
      * )
      *
      * Display a listing of the resource.
@@ -127,12 +126,11 @@ class NotebookController extends Controller
 
     public function show(Notebook $notebook)
     {
-
         return Notebook::find($notebook);
     }
 
     /**
-     * @OA\Put(
+     * @OA\PUT(
      *     path="/notebook/{id}",
      *     operationId="RecordUpdate",
      *     tags={"Notebook"},
@@ -150,21 +148,23 @@ class NotebookController extends Controller
      *             type="integer",
      *         ),
      *     ),
+     *     @OA\RequestBody(
+     *      required=true,
+     *       @OA\MediaType(
+     *       mediaType="application/json",
+     *          @OA\Schema(
+     *              required={"email","full_name","phone"},
+     *              @OA\Property(property="full_name", type="string", example="ФИО(update)"),
+     *              @OA\Property(property="phone", type="string", example="79999999999(update)"),
+     *              @OA\Property(property="email", type="string", format="email", example="email@example.com(update)"),
+     *              @OA\Property(property="company", type="string", example="Компания(update)"),
+     *              @OA\Property(property="date_birth", type="string",format="date",example="01-01-1111"),
+     *          ),
+     *     ),
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Все хорошо",
-     *
-     *     ),
-     *     @OA\RequestBody(
-     *      required=true,
-     *      @OA\JsonContent(
-     *          required={"email","full_name","phone"},
-     *          @OA\Property(property="full_name", type="string", example="ФИО"),
-     *          @OA\Property(property="phone", type="string", example="79999999999"),
-     *          @OA\Property(property="email", type="string", format="email", example="email@mail.ru"),
-     *           @OA\Property(property="company", type="string", example="Компания"),
-     *          @OA\Property(property="date_birth", type="date", example="11-11-1111"),
-     *      ),
      *     ),
      *
      * )
@@ -172,7 +172,6 @@ class NotebookController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -183,9 +182,9 @@ class NotebookController extends Controller
 
         if (isset($data['photo']) && $notebook->photo !== null) {
             $data['photo'] = Storage::disk('public')->put('/photo', $data['photo']);
-            dd(Storage::disk('public')->delete($notebook->photo)) ;
+            dd(Storage::disk('public')->delete($notebook->photo));
         }
-        if(isset($data['photo']) && $notebook->photo == null){
+        if (isset($data['photo']) && $notebook->photo == null) {
             $data['photo'] = Storage::disk('public')->put('/photo', $data['photo']);
         }
 

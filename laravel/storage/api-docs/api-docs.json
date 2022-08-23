@@ -2,9 +2,6 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Notebook API",
-        "contact": {
-            "email": "admin@example.com"
-        },
         "version": "1.0.0"
     },
     "servers": [
@@ -52,12 +49,12 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "email",
                                     "full_name",
-                                    "phone"
+                                    "phone",
+                                    "email"
                                 ],
                                 "properties": {
                                     "full_name": {
@@ -71,16 +68,20 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "email@mail.ru"
+                                        "example": "email@example.com"
                                     },
                                     "company": {
                                         "type": "string",
                                         "example": "Компания"
                                     },
+                                    "photo": {
+                                        "description": "Upload image",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
                                     "date_birth": {
                                         "type": "string",
-                                        "format": "date",
-                                        "example": "11-11-1111"
+                                        "format": "date"
                                     }
                                 },
                                 "type": "object"
@@ -121,9 +122,6 @@
                 "responses": {
                     "200": {
                         "description": "Все хорошо"
-                    },
-                    "404": {
-                        "description": "Запись не найдена"
                     }
                 },
                 "security": [
@@ -163,25 +161,25 @@
                                 "properties": {
                                     "full_name": {
                                         "type": "string",
-                                        "example": "ФИО"
+                                        "example": "ФИО(update)"
                                     },
                                     "phone": {
                                         "type": "string",
-                                        "example": "79999999999"
+                                        "example": "79999999999(update)"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "email@mail.ru"
+                                        "example": "email@example.com(update)"
                                     },
                                     "company": {
                                         "type": "string",
-                                        "example": "Компания"
+                                        "example": "Компания(update)"
                                     },
                                     "date_birth": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "11-11-1111"
+                                        "example": "01-01-1111"
                                     }
                                 },
                                 "type": "object"

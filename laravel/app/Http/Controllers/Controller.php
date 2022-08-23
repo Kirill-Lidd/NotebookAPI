@@ -10,9 +10,6 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *     title="Notebook API",
  *     version="1.0.0",
- *     @OA\Contact(
- *         email="admin@example.com"
- *     ),
  * )
  * @OA\Tag(
  *     name="Notebook",
@@ -20,7 +17,7 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  * @OA\Server(
  *     description="Notebook/v1 API",
- *     url="http://127.0.0.1:8000/api/v1"
+ *     url="http://127.0.0.1:8000/api/v1",
  * )
  * @OA\SecurityScheme(
  *     type="apiKey",
